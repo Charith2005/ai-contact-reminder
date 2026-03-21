@@ -1,11 +1,13 @@
-AI Contact Reminder
-Overview
+## AI Contact Reminder
+Simple relationship management tool with intelligent follow-up recommendations and AI-generated outreach messages.
 
-AI Contact Reminder is a lightweight relationship management tool that helps users maintain strong professional connections. The system analyzes contact information and recommends who the user should reach out to based on time since last interaction and relationship importance.
+Stay connected with the people who matter most.
 
-The application also includes an AI-inspired message generator that creates personalized outreach messages using contextual information such as relationship type and previous conversations.
+AI Contact Reminder helps you track professional relationships and reminds you who to reach out to based on interaction history and relationship importance.
 
-This project demonstrates full-stack engineering skills including API design, frontend development, data handling, and deployment.
+It also includes an AI-style message generator that creates personalized follow-up messages using contextual information such as relationship type and previous conversations.
+
+Designed as a full-stack prototype demonstrating API design, frontend development, recommendation logic, and deployment.
 
 Live Demo
 
@@ -15,92 +17,57 @@ https://ai-contact-reminder-1.onrender.com
 Backend API
 https://ai-contact-reminder-backend.onrender.com
 
-How to Run the Project Locally
-Prerequisites
+Features
+Intelligent Contact Recommendations
 
-Make sure the following are installed:
+Automatically identifies people you should reconnect with based on:
 
-Node.js (v18 or higher recommended)
-npm
-Git
+• Time since last interaction
+• Relationship importance
+• Professional context
 
-Check versions:
+High-priority contacts such as mentors and investors appear first.
 
-node -v
-npm -v
+This ensures you maintain strong relationships without manually tracking communication timelines.
 
-1. Clone the repository
+AI-Style Message Generator
 
-git clone https://github.com/Charith2005/ai-contact-reminder.git
+Generates personalized outreach messages using:
 
-cd ai-contact-reminder
+• contact name
+• relationship type
+• company context
+• previous conversation notes
 
-2. Run Backend
+Example generated message:
 
-cd backend
-npm install
-npm run dev
+Hi Sarah — I hope things are going well at Stripe. It has been a little while since we last spoke, and I was thinking about our conversation about fundraising strategy. I have always appreciated your guidance as a mentor and would love to catch up when you have time.
 
-Backend will run at:
+The system simulates AI generation logic without requiring a paid API.
 
-http://localhost:4000
+Contact Management
 
-Test backend:
+Users can:
 
-http://localhost:4000/contacts
+• add contacts
+• edit contact details
+• delete contacts
+• search contacts instantly
+• view contact profiles
 
-3. Run Frontend
-
-Open a new terminal:
-
-cd frontend
-npm install
-npm run dev
-
-Frontend will run at:
-
-http://localhost:5173
-
-README.md
-
-Key Features
-Contact Storage
-
-Contacts are stored in a JSON file and loaded through the backend API.
-
-Each contact contains:
+Each contact includes:
 
 name
 email
 company
-lastContactedDate
-notes
+last contact date
+relationship notes
 
-Users can:
+Smart Sorting and Filtering
 
-add contacts
-update contacts
-delete contacts
-search contacts
+Contacts are automatically sorted based on importance and recency of communication.
 
-Recommendation Engine
-
-The recommendation system suggests contacts to reach out to using the following logic:
-
-A contact is recommended if:
-
-the contact has not been contacted in 30 or more days
-
-OR
-
-the contact has an important relationship keyword in notes:
-
-mentor
-investor
-advisor
-friend
-
-Priority order:
+Example priority order:
 
 investor
 mentor
@@ -108,183 +75,237 @@ advisor
 friend
 other
 
-Contacts with stronger relationship importance appear first.
+This ensures the most valuable relationships are surfaced first.
 
-AI Message Generator
+How to Run the Project
+Prerequisites
 
-The AI message generator creates personalized follow-up messages using:
+Install:
 
-contact name
-relationship type
-previous conversation context
-company information
+Node.js
+npm
+Git
 
-Instead of using a paid AI API, the system simulates AI behavior using structured templates and dynamic phrasing.
+Verify installation:
 
-The generator:
+node -v
+npm -v
 
-adapts tone based on relationship type
-references previous conversations
-includes company context when available
-produces varied phrasing for more natural output
+1. Clone Repository
 
-Example output:
+git clone https://github.com/Charith2005/ai-contact-reminder.git
 
-Hey Sarah — I hope things are going well at Stripe. It has been a little while since we last spoke, and I was thinking about our conversation about fundraising strategy. I have always appreciated your guidance and perspective. I would love to catch up and hear any thoughts you might have.
+cd ai-contact-reminder
 
-Key Design Decisions
-Full Stack Separation
+2. Start Backend
 
-The project uses a clear separation between frontend and backend.
+cd backend
 
-Frontend
-React application responsible for UI and user interaction.
+npm install
 
-Backend
-Express server responsible for business logic and data handling.
+npm run dev
+
+Backend runs at:
+
+http://localhost:4000
+
+Test API:
+
+http://localhost:4000/contacts
+
+3. Start Frontend
+
+Open new terminal:
+
+cd frontend
+
+npm install
+
+npm run dev
+
+Frontend runs at:
+
+http://localhost:5173
+
+Project Structure
+
+ai-contact-reminder
+
+backend
+│
+├── utils
+│ ├── recommendationService.js
+│ └── messageService.js
+│
+├── contacts.json
+├── server.js
+└── package.json
+
+frontend
+│
+├── src
+│ ├── components
+│ │ ├── ContactList.jsx
+│ │ ├── ContactForm.jsx
+│ │ ├── ContactProfile.jsx
+│ │ ├── RecommendationPanel.jsx
+│ │ └── MessageGenerator.jsx
+│ │
+│ ├── App.jsx
+│ ├── main.jsx
+│ └── index.css
+│
+└── package.json
+
+README.md
+
+Design Decisions
+Clear Separation of Frontend and Backend
+
+Frontend handles:
+
+user interface
+interaction logic
+API requests
+
+Backend handles:
+
+contact storage
+recommendation logic
+message generation logic
 
 This separation improves maintainability and scalability.
 
-Lightweight Data Storage
+Lightweight Storage Using JSON
 
-Contacts are stored in a JSON file to keep the project simple and easy to run locally without requiring database setup.
+Contacts are stored in a JSON file for simplicity.
 
-For a production system, this would be replaced with a relational or document database.
+Advantages:
 
-Modular Backend Logic
+easy setup
+no database configuration required
+fast local development
 
-Backend logic is separated into service modules.
+Future versions could use:
+
+PostgreSQL
+MongoDB
+
+Modular Backend Architecture
+
+Logic is separated into services:
 
 recommendationService.js
-Handles contact prioritization logic.
+handles ranking and filtering contacts
 
 messageService.js
-Handles message generation logic.
+handles message generation logic
 
-This modular approach improves readability and makes the code easier to maintain.
+This improves readability and makes the system easier to extend.
 
 Simple and Clean UI
 
-The UI is intentionally minimal to focus on functionality.
+The interface focuses on usability and clarity.
 
-Design priorities:
-
-readability
-usability
-simplicity
-fast interaction
-
-The layout uses a three-panel structure:
+Three panel layout:
 
 All contacts
 Recommended contacts
 Contact details and message generation
 
-Error Handling
+Design emphasizes readability and fast interaction.
 
-The system includes validation for:
+Assumptions
 
-missing fields
-invalid dates
-empty dataset scenarios
-network request failures
+Contacts dataset is relatively small.
 
-Error messages are displayed clearly in the UI.
+Relationship importance can be inferred from keywords in notes.
 
-Assumptions Made
+Users prefer a lightweight reminder system rather than a complex CRM.
 
-Contacts dataset is relatively small and can be stored in memory.
+AI generation can be simulated without external APIs for this prototype.
 
-Relationship importance can be inferred from keywords in the notes field.
+Users want minimal setup and fast performance.
 
-Users primarily want lightweight relationship reminders rather than full CRM functionality.
-
-Message personalization does not require a paid AI API for this prototype.
-
-Users prefer simple interaction rather than complex configuration.
-
-What I Would Improve With More Time
+Improvements With More Time
 Database Integration
 
-Replace JSON storage with a database such as:
-
-PostgreSQL
-MongoDB
+Replace JSON storage with a database.
 
 Benefits:
 
 persistent storage
-improved scalability
-better query performance
+scalability
+faster querying
 
 Real AI Integration
 
-Integrate an LLM API to generate more natural and context-aware messages.
+Integrate an LLM API for more advanced message personalization.
 
-Possible providers include OpenAI API or open-source models.
+Possible improvements:
 
-This would allow deeper personalization and more variation in tone.
+more natural tone
+better contextual awareness
+adaptive writing style
 
 User Authentication
 
-Add user login and account-based contact storage.
+Add login functionality.
 
 Benefits:
 
-personalized data
-privacy protection
+personalized contact lists
+data privacy
 multi-user support
 
-Advanced Recommendation Logic
+Improved Recommendation Intelligence
 
-Improve recommendation quality using:
+Enhance recommendation quality using:
 
-interaction frequency modeling
-relationship strength scoring
+interaction frequency scoring
 calendar integration
-email interaction signals
+email history signals
+relationship strength modeling
 
-Improved UI and UX
+UI Enhancements
 
-Enhancements could include:
+Potential improvements:
 
-improved typography and spacing
 dark mode
-sorting and filtering options
-contact tagging
+contact tags
+interaction history timeline
 reminder scheduling interface
+improved visual hierarchy
 
 Testing
 
-Add unit and integration tests for:
+Add automated tests for:
 
-recommendation logic
 API endpoints
+recommendation logic
 frontend components
 
 Technologies Used
 
-Frontend:
+Frontend
 
 React
 Vite
 CSS
 
-Backend:
+Backend
 
 Node.js
 Express
 CORS
 
-Deployment:
+Deployment
 
 Render
 GitHub
 
-
 Conclusion
 
-This project demonstrates the ability to design and implement a practical full-stack feature with clear structure, maintainable code, and useful functionality.
+AI Contact Reminder demonstrates how full-stack systems can intelligently support professional relationship management.
 
-The system balances simplicity and functionality while providing a strong foundation for future improvements.
-
+The system balances simplicity and functionality while providing a strong foundation for future improvements such as AI integration, authentication, and advanced analytics.
