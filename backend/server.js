@@ -5,7 +5,7 @@ import { buildRecommendations, parseDate } from "./utils/recommendationService.j
 import { generatePersonalizedMessage } from "./utils/messageService.js";
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
