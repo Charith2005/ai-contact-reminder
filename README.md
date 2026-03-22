@@ -268,6 +268,26 @@ The design focuses on readability and fast interaction.
 
 ---
 
+## Improvements With More Time
+
+### Database Integration
+
+Replace JSON storage with a database.
+
+### User Authentication
+
+Add login functionality.
+
+### UI Enhancements
+
+Potential improvements:
+
+- dark mode
+- contact tags
+- interaction history timeline
+- reminder scheduling interface
+- improved layout spacing
+---
 
 ## Technologies Used
 
