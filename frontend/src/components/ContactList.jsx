@@ -44,6 +44,7 @@ export default function ContactList({
           <div className="action-row">
 
             <button
+              className="primary-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 onEdit(contact);

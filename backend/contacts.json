@@ -8,19 +8,19 @@
     "notes": "mentor"
   },
   {
-    "id": "2",
-    "name": "Jake Patel",
-    "email": "jake@google.com",
-    "company": "Google",
-    "lastContactedDate": "2024-03-01",
-    "notes": ""
-  },
-  {
     "id": "3",
     "name": "Trisha Rodriguez",
     "email": "trisha@yc.com",
     "company": "Y Combinator",
     "lastContactedDate": "2023-12-05",
     "notes": "investor"
+  },
+  {
+    "id": "f3efc003-ae10-489f-8114-ddf1a817ebee",
+    "name": "Jake Patel",
+    "email": "jake@google.com",
+    "company": "Google",
+    "lastContactedDate": "2024-03-01",
+    "notes": ""
   }
 ]

@@ -1,14 +1,67 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function MessageGenerator({ contact, apiBase }) {
   const [relationshipContext, setRelationshipContext] = useState(
-    contact.notes || "professional contact"
+    contact?.notes || "professional contact"
   );
-  const [lastConversation, setLastConversation] = useState(
-    "I wanted to reconnect and see how things are going"
-  );
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  const topicOptions = useMemo(() => {
+    const relationship = (contact?.notes || "").toLowerCase();
+
+    if (relationship.includes("mentor")) {
+      return [
+        "Career advice",
+        "Project guidance",
+        "Industry insights",
+        "General check-in",
+        "Catch up conversation"
+      ];
+    }
+
+    if (relationship.includes("investor")) {
+      return [
+        "Startup progress update",
+        "Fundraising conversation",
+        "Product update",
+        "Market feedback",
+        "General check-in"
+      ];
+    }
+
+    if (relationship.includes("advisor")) {
+      return [
+        "Strategic advice",
+        "Project update",
+        "Feedback request",
+        "General check-in"
+      ];
+    }
+
+    if (relationship.includes("friend")) {
+      return [
+        "Catch up conversation",
+        "Life update",
+        "General check-in",
+        "Reconnect socially"
+      ];
+    }
+
+    return [
+      "General check-in",
+      "Career update",
+      "Catch up conversation"
+    ];
+  }, [contact]);
+
+  useEffect(() => {
+    setRelationshipContext(contact?.notes || "professional contact");
+    setSelectedTopic(topicOptions[0] || "");
+    setMessage("");
+    setError("");
+  }, [contact, topicOptions]);
 
   async function generateMessage() {
     setMessage("");
@@ -23,7 +76,7 @@ export default function MessageGenerator({ contact, apiBase }) {
         body: JSON.stringify({
           contactName: contact.name,
           relationshipContext,
-          lastConversation,
+          lastConversation: selectedTopic,
           company: contact.company
         })
       });
@@ -45,18 +98,31 @@ export default function MessageGenerator({ contact, apiBase }) {
     <div className="message-box">
       <h2>Generate Message</h2>
 
-      <input
+      <p className="helper-text">
+        Choose a relationship type and a suggested outreach topic.
+      </p>
+
+      <select
         value={relationshipContext}
         onChange={(e) => setRelationshipContext(e.target.value)}
-        placeholder="Relationship"
-      />
+      >
+        <option value="mentor">Mentor</option>
+        <option value="investor">Investor</option>
+        <option value="advisor">Advisor</option>
+        <option value="friend">Friend</option>
+        <option value="professional contact">Professional Contact</option>
+      </select>
 
-      <textarea
-        rows="4"
-        value={lastConversation}
-        onChange={(e) => setLastConversation(e.target.value)}
-        placeholder="Last conversation"
-      />
+      <select
+        value={selectedTopic}
+        onChange={(e) => setSelectedTopic(e.target.value)}
+      >
+        {topicOptions.map((topic) => (
+          <option key={topic} value={topic}>
+            {topic}
+          </option>
+        ))}
+      </select>
 
       <button className="primary-btn" onClick={generateMessage}>
         Generate

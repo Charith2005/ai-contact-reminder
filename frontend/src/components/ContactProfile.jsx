@@ -1,5 +1,7 @@
 export default function ContactProfile({
-  contact
+  contact,
+  onEdit,
+  onDelete
 }) {
 
   if (!contact) {
@@ -23,28 +25,40 @@ export default function ContactProfile({
       </h2>
 
       <p>
-        <strong>Email:</strong>
-        {" "}
-        {contact.email}
+        <strong>Email:</strong> {contact.email}
       </p>
 
       <p>
-        <strong>Company:</strong>
-        {" "}
-        {contact.company}
+        <strong>Company:</strong> {contact.company}
       </p>
 
       <p>
-        <strong>Last Contacted:</strong>
-        {" "}
-        {contact.lastContactedDate}
+        <strong>Last Contacted:</strong> {contact.lastContactedDate}
       </p>
 
       <p>
-        <strong>Notes:</strong>
-        {" "}
-        {contact.notes || "None"}
+        <strong>Notes:</strong> {contact.notes || "None"}
       </p>
+
+
+      <div className="action-row">
+
+        <button
+          className="primary-btn"
+          onClick={() => onEdit(contact)}
+        >
+          Edit
+        </button>
+
+
+        <button
+          className="danger-btn"
+          onClick={() => onDelete(contact.id)}
+        >
+          Delete
+        </button>
+
+      </div>
 
     </div>
 
