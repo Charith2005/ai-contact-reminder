@@ -6,9 +6,9 @@ Stay connected with the people who matter most.
 
 AI Contact Reminder helps you track professional relationships and reminds you who to reach out to based on interaction history and relationship importance.
 
-It also includes an AI-style message generator that creates personalized follow-up messages using contextual information such as relationship type and previous conversations.
+It also includes an AI-powered message generator that creates personalized follow-up messages using contextual information such as relationship type, company, and previous conversations.
 
-Designed as a full-stack prototype demonstrating API design, frontend development, recommendation logic, and deployment.
+Designed as a full-stack prototype demonstrating API design, frontend development, recommendation logic, AI integration, and deployment.
 
 ---
 
@@ -36,7 +36,7 @@ High-priority contacts such as mentors and investors appear first, ensuring that
 
 ---
 
-### AI-Style Message Generator
+### AI-Powered Message Generator
 
 Generates personalized outreach messages using:
 
@@ -45,11 +45,13 @@ Generates personalized outreach messages using:
 - company context
 - previous conversation notes
 
+The backend supports real LLM-based generation through an API key and also includes a fallback generator so the project can still run without external API access.
+
 Example output:
 
 Hi Sarah — I hope things are going well at Stripe. It has been a little while since we last spoke, and I was thinking about our conversation about fundraising strategy. I have always appreciated your guidance as a mentor and would love to catch up when you have time.
 
-The system simulates AI generation logic without requiring a paid API.
+This feature demonstrates how AI can be used to create more natural, context-aware follow-up communication instead of relying only on fixed templates.
 
 ---
 
@@ -114,11 +116,25 @@ cd ai-contact-reminder
 
 ---
 
-### Start Backend
+### Backend Setup
+
+Open a terminal and run:
 
 cd backend  
 
 npm install  
+
+If you want to use real LLM-based message generation, install the backend dependencies and create an environment file:
+
+npm install openai dotenv  
+
+Create a file named `.env` inside the `backend` folder and add:
+
+OPENAI_API_KEY=your_api_key_here
+
+If no API key is provided, the project will still run using the fallback message generator.
+
+Then start the backend:
 
 npm run dev  
 
@@ -132,7 +148,7 @@ http://localhost:4000/contacts
 
 ---
 
-### Start Frontend
+### Frontend Setup
 
 Open a new terminal:
 
@@ -148,6 +164,18 @@ http://localhost:5173
 
 ---
 
+### Deployment Environment Variables
+
+For backend deployment, add this environment variable on Render:
+
+OPENAI_API_KEY=your_api_key_here
+
+For frontend deployment, add this environment variable on Render:
+
+VITE_API_BASE_URL=https://ai-contact-reminder-backend.onrender.com
+
+---
+
 ## Project Structure
 
 ai-contact-reminder
@@ -160,7 +188,8 @@ backend
 │  
 ├── contacts.json  
 ├── server.js  
-└── package.json  
+├── package.json  
+└── .env  
 
 frontend  
 │  
@@ -176,7 +205,8 @@ frontend
 │   ├── main.jsx  
 │   └── index.css  
 │  
-└── package.json  
+├── package.json  
+└── .env  
 
 README.md
 
@@ -196,7 +226,7 @@ Backend handles:
 
 - contact storage
 - recommendation logic
-- AI-style message generation logic
+- AI-powered message generation logic
 
 This improves maintainability and scalability.
 
@@ -227,9 +257,21 @@ recommendationService.js
 handles ranking and prioritization logic
 
 messageService.js  
-handles message generation logic
+handles message generation logic and optional LLM integration
 
 This makes the project easier to extend and maintain.
+
+---
+
+### AI Integration with Fallback Support
+
+The system supports real AI-based message generation using an LLM API key.
+
+If an API key is available, the backend can generate more natural and context-aware responses.
+
+If an API key is not available, the system falls back to a local generator so the project remains functional and easy to evaluate.
+
+This approach balances usability, flexibility, and cost-awareness.
 
 ---
 
@@ -252,7 +294,8 @@ The design focuses on readability and fast interaction.
 - Contact dataset is relatively small
 - Relationship importance can be inferred from keywords in notes
 - Users want a lightweight reminder tool rather than a full CRM
-- AI generation can be simulated without using paid APIs
+- Real AI generation is optional and depends on whether an API key is available
+- The fallback generator should keep the project functional even without external AI access
 - Users prefer minimal configuration and fast performance
 
 ---
@@ -271,15 +314,17 @@ Benefits:
 
 ---
 
-### Real AI Integration
+### Stronger AI Integration
 
-Integrate an LLM API for more advanced message personalization.
+Expand the LLM workflow for more advanced message personalization.
 
 Possible improvements:
 
-- more natural tone
+- more natural tone control
 - improved contextual awareness
 - adaptive writing style
+- multiple message tone options such as formal, concise, or friendly
+- subject line generation for email-style outreach
 
 ---
 
@@ -325,6 +370,7 @@ Add automated tests for:
 - API endpoints
 - recommendation logic
 - frontend components
+- AI service fallback behavior
 
 ---
 
@@ -341,6 +387,8 @@ Add automated tests for:
 - Node.js
 - Express
 - CORS
+- OpenAI SDK
+- dotenv
 
 ### Deployment
 
@@ -353,4 +401,6 @@ Add automated tests for:
 
 AI Contact Reminder demonstrates how full-stack systems can intelligently support professional relationship management.
 
-The project balances simplicity and functionality while providing a strong foundation for future improvements such as AI integration, authentication, and advanced analytics.
+The project combines recommendation logic, CRUD functionality, search, and AI-assisted communication in a lightweight and practical workflow.
+
+It balances simplicity and functionality while providing a strong foundation for future improvements such as stronger AI integration, authentication, and advanced analytics.
