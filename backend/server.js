@@ -42,7 +42,7 @@ function validateContact(contact) {
 
   }
 
-  if (!contact.name || !contact.email || !contact.company) {
+  if (!contact.name?.trim() || !contact.email?.trim() || !contact.company?.trim()) {
     return "Name, email, and company are required";
   }
 
