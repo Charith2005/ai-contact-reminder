@@ -19,6 +19,7 @@ export default function ContactForm({ contact, onSave, onCancel }) {
       <input
         type="text"
         placeholder="Name"
+        aria-label="Name"
         value={formData.name}
         onChange={(e) => updateField("name", e.target.value)}
         required
@@ -27,6 +28,7 @@ export default function ContactForm({ contact, onSave, onCancel }) {
       <input
         type="email"
         placeholder="Email"
+        aria-label="Email"
         value={formData.email}
         onChange={(e) => updateField("email", e.target.value)}
         required
@@ -35,6 +37,7 @@ export default function ContactForm({ contact, onSave, onCancel }) {
       <input
         type="text"
         placeholder="Company"
+        aria-label="Company"
         value={formData.company}
         onChange={(e) => updateField("company", e.target.value)}
         required
@@ -42,6 +45,7 @@ export default function ContactForm({ contact, onSave, onCancel }) {
 
       <input
         type="date"
+        aria-label="Last contacted date"
         value={formData.lastContactedDate}
         onChange={(e) => updateField("lastContactedDate", e.target.value)}
         required
@@ -50,6 +54,7 @@ export default function ContactForm({ contact, onSave, onCancel }) {
       <input
         type="text"
         placeholder="Notes"
+        aria-label="Notes"
         value={formData.notes}
         onChange={(e) => updateField("notes", e.target.value)}
       />

@@ -116,7 +116,9 @@ export default function MessageGenerator({ contact, apiBase }) {
         Choose a relationship type and a suggested outreach topic.
       </p>
 
+      <label htmlFor="relationship-select">Relationship type</label>
       <select
+        id="relationship-select"
         value={relationshipContext}
         onChange={(e) => setRelationshipContext(e.target.value)}
       >
@@ -127,7 +129,9 @@ export default function MessageGenerator({ contact, apiBase }) {
         <option value="professional contact">Professional Contact</option>
       </select>
 
+      <label htmlFor="topic-select">Outreach topic</label>
       <select
+        id="topic-select"
         value={selectedTopic}
         onChange={(e) => setSelectedTopic(e.target.value)}
       >

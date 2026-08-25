@@ -220,7 +220,13 @@ textarea {
   margin-top: 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
+}
+
+.message-box label {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
 }
 
 .generated-message {
