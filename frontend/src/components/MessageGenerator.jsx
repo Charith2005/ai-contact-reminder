@@ -1,8 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 
+const RELATIONSHIP_KEYWORDS = ["mentor", "investor", "advisor", "friend"];
+
+function detectRelationship(notes = "") {
+  const normalized = notes.toLowerCase();
+  return (
+    RELATIONSHIP_KEYWORDS.find((keyword) => normalized.includes(keyword)) ||
+    "professional contact"
+  );
+}
+
 export default function MessageGenerator({ contact, apiBase }) {
   const [relationshipContext, setRelationshipContext] = useState(
-    contact?.notes || "professional contact"
+    detectRelationship(contact?.notes)
   );
   const [selectedTopic, setSelectedTopic] = useState("");
   const [message, setMessage] = useState("");
@@ -57,7 +67,7 @@ export default function MessageGenerator({ contact, apiBase }) {
   }, [contact]);
 
   useEffect(() => {
-    setRelationshipContext(contact?.notes || "professional contact");
+    setRelationshipContext(detectRelationship(contact?.notes));
     setSelectedTopic(topicOptions[0] || "");
     setMessage("");
     setError("");
