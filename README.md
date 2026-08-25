@@ -53,17 +53,28 @@ Runs at `http://localhost:5173`.
 
 Without an `OPENAI_API_KEY`, message generation still works — it just uses the fallback template generator instead of a real LLM call.
 
+**Tests**
+
+```bash
+cd backend
+npm test
+```
+
+Runs the `node:test` suite covering contact validation and recommendation scoring — no extra dependencies required.
+
 ---
 
 ## Project structure
 
 ```
 backend/
-  server.js                    Express app, routes, validation
+  server.js                    Express app, routes, error handling
   utils/
     fileStore.js                Read/write contacts.json
     recommendationService.js    Follow-up scoring and sorting
     messageService.js           OpenAI call + fallback generator
+    validation.js               Contact validation and normalization
+  test/                         node:test unit tests
   contacts.json                 Data store
 
 frontend/
@@ -104,3 +115,21 @@ This is a portfolio prototype, not a production CRM:
 - Swap the JSON file for a real database with a persistent volume
 - Add authentication and per-user contact lists
 - Move recommendation scoring to something more robust than keyword matching
+
+---
+
+## Environment variables
+
+**Backend** (`backend/.env`, see `.env.example`)
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `OPENAI_API_KEY` | No | Enables real LLM message generation. Omit to use the fallback generator. |
+| `PORT` | No | Defaults to `4000`. |
+| `FRONTEND_ORIGIN` | No | Restricts CORS to a specific origin. Defaults to `*`. |
+
+**Frontend** (`frontend/.env`, see `.env.example`)
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `VITE_API_BASE_URL` | No | Backend URL. Defaults to `http://localhost:4000`. |
