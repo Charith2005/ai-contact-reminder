@@ -14,6 +14,7 @@ export default function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
   const [editingContact, setEditingContact] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function loadContacts() {
     try {
@@ -41,8 +42,9 @@ export default function App() {
   }
 
   useEffect(() => {
-    loadContacts();
-    loadRecommendations();
+    Promise.all([loadContacts(), loadRecommendations()]).finally(() =>
+      setIsLoading(false)
+    );
   }, []);
 
   const recommendationIds = useMemo(() => {
@@ -105,6 +107,10 @@ const filteredContacts = useMemo(() => {
   }
 
   async function handleDelete(id) {
+    if (!window.confirm("Delete this contact? This cannot be undone.")) {
+      return;
+    }
+
     setError("");
 
     try {
@@ -166,13 +172,17 @@ const filteredContacts = useMemo(() => {
             </button>
           </div>
 
-          <ContactList
-            contacts={filteredContacts}
-            selectedContact={selectedContact}
-            onSelect={setSelectedContact}
-            onEdit={setEditingContact}
-            onDelete={handleDelete}
-          />
+          {isLoading ? (
+            <p className="empty-state">Loading contacts…</p>
+          ) : (
+            <ContactList
+              contacts={filteredContacts}
+              selectedContact={selectedContact}
+              onSelect={setSelectedContact}
+              onEdit={setEditingContact}
+              onDelete={handleDelete}
+            />
+          )}
         </section>
 
         <section className="panel">
@@ -183,7 +193,11 @@ const filteredContacts = useMemo(() => {
         </section>
 
         <section className="panel">
-          <ContactProfile contact={selectedContact} />
+          <ContactProfile
+            contact={selectedContact}
+            onEdit={setEditingContact}
+            onDelete={handleDelete}
+          />
 
           {selectedContact && (
             <MessageGenerator
