@@ -139,8 +139,6 @@ body {
 
 /* ---------------- BUTTONS ---------------- */
 
-/* ---------------- BUTTONS ---------------- */
-
 button {
   padding: 8px 16px;
   border-radius: 10px;
@@ -160,18 +158,6 @@ button {
 }
 
 .primary-btn:hover {
-  background: #3c78e0;
-}
-
-
-/* EDIT BUTTON */
-
-.edit-btn {
-  background: #4f8df7;
-  color: white;
-}
-
-.edit-btn:hover {
   background: #3c78e0;
 }
 
