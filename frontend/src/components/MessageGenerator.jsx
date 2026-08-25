@@ -17,6 +17,7 @@ export default function MessageGenerator({ contact, apiBase }) {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const topicOptions = useMemo(() => {
     const relationship = (contact?.notes || "").toLowerCase();
@@ -76,6 +77,7 @@ export default function MessageGenerator({ contact, apiBase }) {
   async function generateMessage() {
     setMessage("");
     setError("");
+    setIsGenerating(true);
 
     try {
       const response = await fetch(`${apiBase}/generate-message`, {
@@ -101,6 +103,8 @@ export default function MessageGenerator({ contact, apiBase }) {
       setMessage(data.message);
     } catch {
       setError("Server error");
+    } finally {
+      setIsGenerating(false);
     }
   }
 
@@ -134,8 +138,12 @@ export default function MessageGenerator({ contact, apiBase }) {
         ))}
       </select>
 
-      <button className="primary-btn" onClick={generateMessage}>
-        Generate
+      <button
+        className="primary-btn"
+        onClick={generateMessage}
+        disabled={isGenerating}
+      >
+        {isGenerating ? "Generating…" : "Generate"}
       </button>
 
       {error && <p className="error-text">{error}</p>}
