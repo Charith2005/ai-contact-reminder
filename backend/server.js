@@ -28,6 +28,7 @@ function asyncHandler(handler) {
 }
 
 const generateMessageLimiter = createRateLimiter({ windowMs: 60_000, max: 10 });
+const MAX_MESSAGE_FIELD_LENGTH = 200;
 
 app.get("/", (_req, res) => {
   res.send("AI Contact Reminder backend is running.");
@@ -136,6 +137,17 @@ app.post(
     if (!contactName || !relationshipContext || !lastConversation) {
       return res.status(400).json({
         error: "contactName, relationshipContext, and lastConversation are required"
+      });
+    }
+
+    const fields = { contactName, relationshipContext, lastConversation, company };
+    const tooLong = Object.entries(fields).some(
+      ([, value]) => typeof value === "string" && value.length > MAX_MESSAGE_FIELD_LENGTH
+    );
+
+    if (tooLong) {
+      return res.status(400).json({
+        error: `Each field must be ${MAX_MESSAGE_FIELD_LENGTH} characters or fewer`
       });
     }
 

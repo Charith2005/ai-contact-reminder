@@ -44,3 +44,17 @@ test("normalizeContact trims string fields", () => {
   assert.equal(normalized.name, "Ada Lovelace");
   assert.equal(normalized.notes, "mentor");
 });
+
+test("validateContact rejects a name over the length limit", () => {
+  assert.match(
+    validateContact({ ...validContact, name: "a".repeat(101) }),
+    /name must be 100 characters or fewer/
+  );
+});
+
+test("validateContact rejects notes over the length limit", () => {
+  assert.match(
+    validateContact({ ...validContact, notes: "a".repeat(2001) }),
+    /notes must be 2000 characters or fewer/
+  );
+});
