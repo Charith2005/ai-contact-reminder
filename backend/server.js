@@ -7,10 +7,12 @@ import { readContacts, writeContacts } from "./utils/fileStore.js";
 import { buildRecommendations } from "./utils/recommendationService.js";
 import { generateMessage } from "./utils/messageService.js";
 import { validateContact, normalizeContact } from "./utils/validation.js";
+import { createRateLimiter } from "./utils/rateLimit.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+app.set("trust proxy", true);
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN || "*" }));
 app.use(express.json());
 
@@ -24,6 +26,8 @@ app.use((err, _req, res, next) => {
 function asyncHandler(handler) {
   return (req, res, next) => handler(req, res, next).catch(next);
 }
+
+const generateMessageLimiter = createRateLimiter({ windowMs: 60_000, max: 10 });
 
 app.get("/", (_req, res) => {
   res.send("AI Contact Reminder backend is running.");
@@ -125,6 +129,7 @@ app.get(
 
 app.post(
   "/generate-message",
+  generateMessageLimiter,
   asyncHandler(async (req, res) => {
     const { contactName, relationshipContext, lastConversation, company } = req.body;
 
