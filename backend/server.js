@@ -29,6 +29,10 @@ app.get("/", (_req, res) => {
   res.send("AI Contact Reminder backend is running.");
 });
 
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.get(
   "/contacts",
   asyncHandler(async (_req, res) => {
