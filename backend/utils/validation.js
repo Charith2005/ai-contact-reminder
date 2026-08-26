@@ -45,3 +45,10 @@ export function normalizeContact(contact) {
 
   return normalized;
 }
+
+export function isDuplicateEmail(contacts, email, excludeId = null) {
+  const normalized = email.trim().toLowerCase();
+  return contacts.some(
+    (contact) => contact.id !== excludeId && contact.email.toLowerCase() === normalized
+  );
+}

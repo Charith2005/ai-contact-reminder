@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { validateContact, normalizeContact } from "../utils/validation.js";
+import { validateContact, normalizeContact, isDuplicateEmail } from "../utils/validation.js";
 
 const validContact = {
   name: "Ada Lovelace",
@@ -57,4 +57,19 @@ test("validateContact rejects notes over the length limit", () => {
     validateContact({ ...validContact, notes: "a".repeat(2001) }),
     /notes must be 2000 characters or fewer/
   );
+});
+
+test("isDuplicateEmail matches case-insensitively", () => {
+  const contacts = [{ id: "1", email: "Ada@Example.com" }];
+  assert.equal(isDuplicateEmail(contacts, "ada@example.com"), true);
+});
+
+test("isDuplicateEmail excludes the given id", () => {
+  const contacts = [{ id: "1", email: "ada@example.com" }];
+  assert.equal(isDuplicateEmail(contacts, "ada@example.com", "1"), false);
+});
+
+test("isDuplicateEmail returns false when no match", () => {
+  const contacts = [{ id: "1", email: "ada@example.com" }];
+  assert.equal(isDuplicateEmail(contacts, "grace@example.com"), false);
 });

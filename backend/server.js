@@ -6,7 +6,7 @@ import crypto from "crypto";
 import { readContacts, writeContacts } from "./utils/fileStore.js";
 import { buildRecommendations } from "./utils/recommendationService.js";
 import { generateMessage } from "./utils/messageService.js";
-import { validateContact, normalizeContact } from "./utils/validation.js";
+import { validateContact, normalizeContact, isDuplicateEmail } from "./utils/validation.js";
 import { createRateLimiter } from "./utils/rateLimit.js";
 
 const app = express();
@@ -55,6 +55,11 @@ app.post(
     }
 
     const contacts = await readContacts();
+
+    if (isDuplicateEmail(contacts, req.body.email)) {
+      return res.status(409).json({ error: "A contact with this email already exists" });
+    }
+
     const newContact = {
       id: crypto.randomUUID(),
       ...normalizeContact(req.body)
@@ -80,6 +85,10 @@ app.put(
 
     if (index === -1) {
       return res.status(404).json({ error: "Contact not found" });
+    }
+
+    if (isDuplicateEmail(contacts, req.body.email, req.params.id)) {
+      return res.status(409).json({ error: "A contact with this email already exists" });
     }
 
     contacts[index] = { ...contacts[index], ...normalizeContact(req.body) };
